@@ -1,0 +1,99 @@
+{% extends 'base.html.twig' %}
+{% block title %} Bon de commande{% endblock %}
+
+{% block body %}
+
+{{ form_start(form_bon) }}     
+<div class="container-fluid">
+    <div class="">
+        <div class="col-9 col-push-2 offset-2">
+            <h4 class="text-centered">
+            Etablissement de bon de commande
+            </h4>
+            <div class="card card-primary card-outline"> 
+                <form class="form-horizontal">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="card-body">
+                                <div class="form-group row">
+                                    <div class="col-sm-5">
+                                        <label for="bon_fournisseurBdc" class="required">Fournisseur</label>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        {{ form_widget(form_bon.fournisseurBdc,{'attr' : {'class':' form-control'}})  }}
+                                    </div>
+                                </div>
+                              
+                            </div>
+                        </div>
+                        <div class="col-6 push-col-1">
+                            <div class="card-body">
+                                <div class="form-group row">
+                                    <div class="col-sm-5">
+                                        {{ form_label(form_bon.numero) }}
+                                    </div>
+                                    <div class="col-sm-7">
+                                        {{ form_widget(form_bon.numero,{'attr' : {'class':'mr-auto form-control'}})  }}
+                                    </div>
+                                </div>                                
+                                <div class="form-group row">
+                                    <div class="col-sm-5">
+                                        {{ form_label(form_bon.note) }}
+                                    </div>
+                                    <div class="col-sm-7">
+                                    {{ form_widget(form_bon.note,{'attr' : {'class':'mr-auto form-control'}})  }}
+                                    </div>
+                                </div>
+                    
+                    
+                            </div>
+                                                
+                        </div>
+                    </div>
+                </form>  
+                <div class="card-tools text-right border-bottom">
+                    <a href="#" id="add-new-item" class="btn btn-sm rounded-0 rounded-top btn-outline-dark mx-2">Nouvelle ligne</a>         
+                </div>
+                <div class="card-body table-responsive ">
+                    <table id="facture" class=" table bg-secondary table-sm centered text-nowrap "
+                        data-prototype-dci="{{  form_widget(form_bon.medicItems.vars.prototype.ItemMedicament)|e }}"
+                        data-prototype-qtt="{{  form_widget(form_bon.medicItems.vars.prototype.quantite)|e }}"
+                        data-prototype-pu="{{  form_widget(form_bon.medicItems.vars.prototype.prixUnitaire)|e }}"
+                        data-prototype-totalBdc="{{  form_widget(form_bon.medicItems.vars.prototype.totalBdc)|e }}"
+                      
+                       data-index="{{ form_bon.medicItems|length }}">
+                        <thead class="thead-dark">
+                                <th scope="col">#</th>
+                                <th scope="col">Designation</th>
+                                <th scope="col">Quantité</th>
+                                <th scope="col">Prix unitaire</th>
+                                <th scope="col">Sous-total</th>
+                                <th scope="col">actions</th>
+                        </thead>
+                        <tbody>  
+                            <tr class="td_cache" style="display:none;">
+                                <td class="d-flex align-middle justify-content-around ">
+                          {#           <a href="#" id="add-new-item" class=" btn btn-sm btn-outline-dark" title="Duplicate element"><span class="fa fa-plus"></span></a> #}
+                                    <a href="#" id="remove-item" class=" btn btn-sm btn-outline-dark" title="Supprimer element"><span class="fa fa-trash"></span></a>
+                                
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>  
+                <div class="card-footer">
+                     <div class=" col-3 offset-9">
+                        <p class="font-weight-bold text-right" id="ttc">Total TTC: <span>00.000</span></p>
+                     </div>
+                   {{ form_widget(form_bon._token) }}
+                    <button type="submit" id="save-bdc" class="btn btn-success">Valider</button>
+                    <button type="reset" class="btn btn-default float-right">Cancel</button>
+                </div>                
+            </div>
+        </div>
+    </div>
+   
+</div>
+{{ form_end(form_bon,{'render_rest': false}) }}
+{% endblock  %}
+

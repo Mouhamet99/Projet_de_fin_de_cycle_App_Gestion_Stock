@@ -1,0 +1,17 @@
+{{ form_start(form) }}
+<tr id="item">
+    <td id="dci">{{ form_widget(form.ItemMedicament) }}</td>
+    <td id="pu">{{ form_widget(form.prixUnitaire) }}</td>
+    <td id="qtt">{{ form_widget(form.quantite) }}</td>
+    <td id="total">{{ form_widget(form.total) }}</td>
+    <td id="total">{{ form_widget(form.totalBdc) }}</td>
+    <td id="list_item">{{ form_widget(form.medicItemBdc) }}</td>
+   {#
+    <td id="list_item">{{ form_widget(form.bdlMedicItems) }}</td>
+     #}
+    <td>
+        <a href="#" id="remove-item" class=" btn btn-default" title="Delete element"><span class="fa fa-trash"></span></a>
+        <a href="#" id="duplicate-item" class=" btn btn-default" title="Duplicate element"><span class="fa fa-th-large"></span></a>
+    </td>
+</tr>
+{{ form_end(form) }}

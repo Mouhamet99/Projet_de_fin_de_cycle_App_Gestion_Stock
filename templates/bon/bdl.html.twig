@@ -1,0 +1,122 @@
+{% extends 'base.html.twig' %}
+{% block title %}Facture{% endblock %}
+
+{%  block body %}
+    {{ form_start(form_facture) }}
+      <br>
+      <br>
+       
+<div class="container-fluid">
+    <div class="">
+        <div class="col-9 col-push-2 offset-2">
+            <div class="card card-primary card-outline"> 
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="card-body">
+                                <div class="form-group row">
+                                    <div class="col-sm-5">
+                                         {{ form_label(form_facture.facture) }}
+                                    </div>
+                                    <div class="col-sm-7">
+                                        {{ form_widget(form_facture.facture,{'attr' : {'class':' form-control'}})  }}
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-5">
+                                         {{ form_label(form_facture.modeDePayement) }}
+                                    </div>
+                                    <div class="col-sm-7">
+                                        {{ form_widget(form_facture.modeDePayement,{'attr' : {'class':' form-control'}})  }}
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-5">
+                                         {{ form_label(form_facture.createdAt, 'Date') }}
+                                    </div>
+                                    <div class="col-sm-7">
+                                        {{ form_widget(form_facture.createdAt,{'attr' : {'class':' form-control'}})  }}
+                                    </div>
+                                </div>
+                               
+                            </div>
+                        </div>
+                        <div class="col-6 push-col-1">
+                            <div class="card-body">
+                           
+                                <div class="form-group row">
+                                    <div class="col-sm-5">
+                                      {{ form_label(form_facture.remise) }}
+                                    </div>
+                                    <div class="col-sm-">
+                                        {{ form_widget(form_facture.remise,{'attr' : {'class':'mr-auto form-control'}})  }}
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-5">
+                                      {{ form_label(form_facture.netAPayer) }}
+                                    </div>
+                                    <div class="col-sm-7 td-net-a-payer">
+                                        {{ form_widget(form_facture.netAPayer,{'attr' : {'class':'mr-auto form-control'}})  }}
+                                    </div>
+                                </div>
+                            </div>
+                                                
+                        </div>
+                    </div>
+                <div class="card-tools text-right border-bottom">
+                    <a href="#" id="add-new-item" class="btn btn-sm rounded-0 rounded-top btn-outline-dark mx-2">Nouvelle ligne</a>    
+                    <a href="#" id="add-new-item-to-facture" class="btn  btn-success text-white float-right">Ajouter</a>            
+                </div>
+                <div class="card-body table-responsive ">
+                    <table id="facture" class=" table table-sm  table-hover table-centered table-stripped text-nowrap " style="background-color: #c7c7c7!imortant;">
+                        <thead class="thead-dark">
+                                <th scope="col">Designation</th>
+                                <th scope="col">Qté</th>
+                                <th scope="col">Recu</th>
+                                <th scope="col">PU prévu</th>
+                                <th scope="col">Prix Achat</th>
+                                <th scope="col">Sous-total</th>
+                                <th scope="col">Supp</th>
+                        </thead>
+                        <tbody >  
+                            {% for key, list in form_facture.bdlMedicItems %}
+                            <tr class="tr-item" id ="{{ key }}">
+                                <td>{{ form_widget(list.ItemMedicament,{'attr': {'class': 'w-auto h-100 align-self-center'}}) }}</td>
+                                <td>{{ form_widget(list.prixUnitaire,{'attr': {'class': 'h-100 align-self-center'}} ) }}</td>
+                                <td class="td-qtt">{{ form_widget(list.recu,{'attr': {'class': ' h-100 align-self-center'}} ) }}</td>
+                                <td>{{ form_widget(list.quantite,{'attr': {'class': 'h-100 align-self-center'}}) }}</td>
+                                <td class="td-price">{{ form_widget(list.prixAchat,{'attr': {'class': 'h-100 align-self-center'}} ) }}</td>
+                                <td class="td-total">{{ form_widget(list.total,{'attr': {'class': 'h-100'}} ) }}</td>
+                                <td class="d-flex align-middle justify-content-around ">
+                                    <a href="#" id="remove-item" class=" btn " title='supprimer une ligne'><i class="fa fa-trash"></i></a>
+                                </td>
+                                <td style="display: none;">
+                                    {{ form_widget(list.medicItemBdc)}}
+                                    {{ form_widget(list.medicItemBdl) }}
+                                    {{ form_widget(list.totalBdc) }}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            <tr class="td_cache" style="display:none;">
+                                <td class="d-flex align-middle justify-content-around ">
+                                    <a href="#" id="remove-item" class=" btn btn-default" title="Delete element"><span class="fa fa-trash"></span></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>  
+                   
+                <div class="card-footer">
+                    {{ form_widget(form_facture._token) }}
+                    <button type="submit" id="save-bdc" class="btn btn-primary">Valider</button>
+                    <button type="reset" class="btn btn-default float-right">Cancel</button>
+                </div>              
+            </div>
+        </div>
+    </div>
+   
+</div>
+
+
+    {{ form_end(form_facture,{'render_rest': false}) }}
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+{# {{ form_start(providerForm) }}
+{{ form_row(providerForm) }}
+{% if editMode %}
+<button type="submit" class="btn btn-success">
+Enregistrer les modifications
+</button>
+{% else %}
+<button type="submit" class="btn btn-warning">
+Ajouter fournisseur
+</button>
+{% endif %}
+{{ form_end(providerForm) }} #}
+<hr>
+<div class="row">
+  <div class="col-5 offset-3">
+  <hr>
+    <div class="card   card-outline px-3">
+    <hr>
+      <div class="form-controls">
+        {{ form_start(providerForm) }}
+          <div class="form-error">
+            {{ form_errors(providerForm) }}
+          </div>
+          <div class="form-group px-3 ">
+            {{ form_label(providerForm.codeFourn) }}    
+            {{ form_widget(providerForm.codeFourn,{'attr' : { 'class' :'form-control border-width-2 is-warning'}}) }}
+          </div>
+          <div class="form-group px-3 ">
+            {{ form_label(providerForm.nomFourn) }}    
+            {{ form_widget(providerForm.nomFourn,{'attr' : { 'class' :'form-control border-width-2 is-warning'}}) }}
+          </div>
+          <div class="form-group px-3">
+            {{ form_label(providerForm.company) }}    
+            {{ form_widget(providerForm.company,{'attr' : { 'class' :'form-control border-width-2 is-warning'}}) }}
+          </div>
+          <div class="form-group px-3">
+            {{ form_label(providerForm.telFourn) }}    
+            {{ form_widget(providerForm.telFourn,{'attr' : { 'class' :'form-control border-width-2 is-warning'}}) }}
+          </div>
+          <div class="form-group px-3">
+            {{ form_label(providerForm.mailFourn) }}    
+            {{ form_widget(providerForm.mailFourn,{'attr' : { 'class' :'form-control border-width-2 is-warning'}}) }}
+          </div>
+          <div class="form-group px-3">
+            {{ form_label(providerForm.adresseFourn) }}    
+            {{ form_widget(providerForm.adresseFourn,{'attr' : { 'class' :'form-control border-width-2 is-warning'}}) }}
+          </div>
+          <div class="form-group px-3">
+            {{ form_widget(providerForm._token) }} 
+           
+            {% if editMode %}
+            <button type="submit" class="btn btn-success">
+            Enregistrer les modifications
+            </button>
+            {% else %}
+            <button type="submit" class="btn btn-warning">
+            Ajouter fournisseur
+            </button>
+            {% endif %}
+          </div>
+        
+           
+          {{ form_end(providerForm,{'render_rest' :false}) }}
+     
+      </div>  
+    </div>
+  </div>
+</div>
+{% endblock  %} 

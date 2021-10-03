@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Factures{% endblock %}
+
+{% block body %}
+ 
+  <!--  Modal to Showing item of bondecommande   -->
+  <div class="modal  fade" id="bon-facture" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="list-item-medic-label" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered">
+     
+    </div>
+  </div>
+    <!--  end Modal to Showing bonDeCommande   -->
+ 
+<hr>
+<br> 
+<div class="row">
+    <div class="col-11 col-push-1">
+    <h4 class="text-centered">
+       Table des Factures.Nous pouvons voir toutes les informations les concernant
+    </h4>
+     <div class="col-12">
+          <div class="card card-primary card-outline">
+              <div class="card-tools py-2 bg-light">  
+
+               
+                  <button class="btn btn-outline-secondary" id="print-bdl" >
+                    <i class="fas fa-print mx-2"></i>Imprimer
+                  </button>
+                  <button  class="btn btn-warning btn_view_facture" data-toggle="modal" data-target=""   id="">
+                    <i class="fas fa-eye mx-2"></i>Visualiser
+                  </button>
+                  <button  type="button" class="btn btn-success" data-toggle="modal" data-target="#bon-facture" id="btn-remove-bdl">
+                     <i class="fas fa-plus mx-2"></i>Nouvelle Facture
+                  </button>
+                  <button type="button" class="btn btn-tool float-right" data-card-widget="collapse">
+                      <i class="fas fa-minus  "></i>
+                  </button>   
+              </div>
+              <!-- /.card-tools -->
+         
+            <div class="card-body p-0">
+              <div class=" table-responsive mailbox-messages">
+                <table class="table table-sm table-hover table-bordered table-striped " id="table-bdl">
+                  <thead>
+                    <tr>
+                      	<th scope="col" style"padding :1px;">#</th>
+                        <th scope="col">Facture</th>
+                        <th scope="col">Montant</th>
+                        <th scope="col">Remise (%)</th>
+                        <th scope="col">Payement</th>
+                        <th scope="col">Date</th>
+                        <th scope="col" style="padding: 4px;">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for list in facture_list %}
+                      <tr>
+                        <td>
+                          <div class="icheck-primary">
+                            <input type="checkbox" value="{{list.id}}" >
+                            <label for="check1"></label>
+                          </div>
+                        </td>
+                        <td>  {{list.facture}} </td>
+                        <td>  {{list.netAPayer}} </td>
+                        <td>  {{list.remise * 100}} </td>
+                        <td>  {{list.modeDePayement}} </td>
+                        <td>  {{list.createdAt | date('d/m/Y')}} </td>                        
+                        <td> 
+
+                          <a id="btn-print-bdl" href="{{path('facture_print')}}" target ="_blank" class="btn btn-sm btn-secondary" alt="imprimer"><i class="fas fa-print"></i></a>
+                          <a id="btn-show-bdl" href="{{path('facture_show',{id: list.id})}}" class="btn btn-sm btn-warning" alt="afficher"><i class="fas fa-eye "></i></a>
+             
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+                <!-- /.table -->
+              </div>
+              <!-- /.mail-box-messages -->
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer p-0">
+           
+            </div>
+          </div>
+          <!-- /.card -->
+        </div>
+    </div>
+</div>
+{% endblock %}
+

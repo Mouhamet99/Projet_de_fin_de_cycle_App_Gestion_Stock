@@ -1,0 +1,243 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tableau de bord{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+{# <div class="example-wrapper">
+    <h1>Hello {{ controller_name }}! ✅</h1>
+
+    Tableau de Bord
+    <ul>
+        <li>Your controller at <code><a href="{{ 'C:/xampp/htdocs/CYM/src/Controller/DashBoardController.php'|file_link(0) }}">src/Controller/DashBoardController.php</a></code></li>
+        <li>Your template at <code><a href="{{ 'C:/xampp/htdocs/CYM/templates/dash_board/index.html.twig'|file_link(0) }}">templates/dash_board/index.html.twig</a></code></li>
+    </ul>
+	<ul>Tableau de bord des medicaments 
+		<li>nombre de medicaments consommés mensuellement financierement et en terme de quantités</li>
+		<li> medicament permimés </li>
+		<li>medicament deteriorés </li>
+	</ul>
+	10 Medicaments les plus actives(utilisés)
+	<ul>
+		<li>en termes de quantité</li>
+		<li>en terme de valeur</li>
+	</ul>
+	graphe des sorties (des 7derniers jours /en temps reel) quotidiennens
+	<ul>
+		<li>nbre de medicamnents sortie par jour</li>
+		<li>medicamnents sorties par jour en termes de valeur</li>
+	</ul>
+	graphe de l'evolution des  ruptures quotidiens sur le mois 
+	<ul>
+		<li>en terme de quantité</li>
+	</ul>
+	utilisation d'un medicament p/r aux differents services(Pie) dans le mois
+	<ul>
+		<li>en terme de quantite</li>
+	</ul>
+	repatition de l'utilisation des medicament dans les # services dans le mois
+	<ul>
+		<li>en terme financiere</li>
+		<li>en terme de quantite</li>
+	</ul>
+	Repartition de la Consommation moyenne de chacune des services 
+	<ul>
+		<li>en terme financiere</li>
+	</ul>
+	Tableau de bord des entrees comparées aux sorties dans le mois  
+	<ul>
+		<li>evolution des entrees par jour(courbes ou diagrammes en barres)</li>
+		<li>evolution des sorties par jour</li>
+	</ul>
+</div> #}
+<!-- 
+<div class="resume">
+	<details>Tableau de bord des commandes effectives sur le mois et leur </details> 
+	<details>Tableau de bord des factures effectives sur le mois et leur budget</details>
+</div>
+ -->
+<div class="row">
+	<div class="mt-4 pt-3 col-xs-12 col-sm-12 col-md-10 offset-md-1 mb-5">
+		<!--EVOLUTION RUPTURES  -->
+		<div class="card ">
+		 	<div class="card-header">
+		    	<h3 class="card-title">Consommation Moyenne de medicaments par jour</h3>
+		    </div>
+			<div class="card-body">
+				<div class="chart">
+				{{ render_chart(ConsMoyParJour) }}
+				</div>
+			</div>
+		  <!-- /.card-body -->
+		</div>
+	</div>
+	<div class="col-xs-12 col-sm-12 col-md-10 offset-md-1 mb-5">
+		<div class="card {#card-primary#}">
+		  <div class="card-header">
+		    <h3 class="card-title">Variation des entrées et sorties</h3>
+		  </div>
+		  <div class="card-body">
+		    <div class="chart"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+		    {{ render_chart(EntreeSortie) }}
+		    </div>
+		  </div>
+		  <!-- /.card-body -->
+		</div>
+	</div>
+
+		<!-- /.card -->
+
+		<!-- DONUT CHART -->
+		<!-- GRAPHE ENTREE/SORTIE -->
+	<div class="col-xs-12 col-sm-12 col-md-10 offset-md-1 mb-5">
+		<div class="card ">
+			  <div class="card-header">
+			    <h3 class="card-title">Medicaments les plus actifs</h3>
+			    <div class="card-tools">
+			      <button type="button" class="btn btn-tool" data-card-widget="collapse">
+			        <i class="fas fa-minus"></i>
+			      </button>
+			      <button type="button" class="btn btn-tool" data-card-widget="remove">
+			        <i class="fas fa-times"></i>
+			      </button>
+			    </div>
+			  </div>
+			  <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+ 				 {{ render_chart(PlusActif) }}			
+			  </div>
+			  <!-- /.card-body -->
+		</div>
+	</div>
+
+		<!-- /.card -->
+
+	<!-- /.col (LEFT) -->
+	<div class="col-xs-12 col-sm-12 col-md-10 offset-md-1 mb-5">
+		<!-- PIE CHART -->
+		<!-- REPARTITION UTILISATION D'UN MEDICAMENT -->
+		<div class="card ">
+		  <div class="card-header">
+		    <h3 class="card-title"> Consommation par catégorie</h3>
+
+		    <div class="card-tools">
+		      <button type="button" class="btn btn-tool" data-card-widget="collapse">
+		        <i class="fas fa-minus"></i>
+		      </button>
+		      <button type="button" class="btn btn-tool" data-card-widget="remove">
+		        <i class="fas fa-times"></i>
+		      </button>
+		    </div>
+		  </div>
+		  <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+			{{ render_chart(ParCategorie) }}			
+
+		  </div>
+		  <!-- /.card-body -->
+		</div>
+	</div>
+
+		<!-- /.card -->
+		<!-- LINE CHART -->
+	<div class="col-xs-12 col-sm-12 col-md-10 offset-md-1 mb-5">
+		<div class="card ">
+		  <div class="card-header">
+		    <h3 class="card-title">Consommation par service</h3>
+
+		    <div class="card-tools">
+		      <button type="button" class="btn btn-tool" data-card-widget="collapse">
+		        <i class="fas fa-minus"></i>
+		      </button>
+		      <button type="button" class="btn btn-tool" data-card-widget="remove">
+		        <i class="fas fa-times"></i>
+		      </button>
+		    </div>
+		  </div>
+		  <div class="card-body">
+		    <div class="chart"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+		    	{{ render_chart(ParService) }}
+		    </div>
+		  </div>
+		  <!-- /.card-body -->
+		</div>
+	</div>
+	<div class="col-xs-12 col-sm-12 col-md-10 offset-md-1 mb-5">
+		<div class="card ">
+		  <div class="card-header">
+		    <h3 class="card-title">Depense par service</h3>
+
+		    <div class="card-tools">
+		      <button type="button" class="btn btn-tool" data-card-widget="collapse">
+		        <i class="fas fa-minus"></i>
+		      </button>
+		      <button type="button" class="btn btn-tool" data-card-widget="remove">
+		        <i class="fas fa-times"></i>
+		      </button>
+		    </div>
+		  </div>
+		  <div class="card-body">
+		    <div class="chart"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+		    	{{ render_chart(DepenseParService) }}
+		    </div>
+		  </div>
+		  <!-- /.card-body -->
+		</div>
+	</div>
+		<!-- /.card -->
+	<div class="col-xs-12 col-sm-12 col-md-10 offset-md-1 mb-5">
+		<div class="card ">
+		  <div class="card-header">
+		    <h3 class="card-title">Depense par catégorie de médicament</h3>
+
+		    <div class="card-tools">
+		      <button type="button" class="btn btn-tool" data-card-widget="collapse">
+		        <i class="fas fa-minus"></i>
+		      </button>
+		      <button type="button" class="btn btn-tool" data-card-widget="remove">
+		        <i class="fas fa-times"></i>
+		      </button>
+		    </div>
+		  </div>
+		  <div class="card-body">
+		    <div class="chart"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+		    	{{ render_chart(PlusActifParCat) }}
+		    </div>
+		  </div>
+		  <!-- /.card-body -->
+		</div>
+	</div>
+		<!-- /.card -->
+
+</div>
+<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-10 offset-md-1 mb-5">
+		<!-- GRAPHES DES SORTIES RECENTES -->
+		<div class="card ">
+		  <div class="card-header">
+		    <h3 class="card-title">SORTIES RECENTES</h3>
+
+		    <div class="card-tools">
+		      <button type="button" class="btn btn-tool" data-card-widget="collapse">
+		        <i class="fas fa-minus"></i>
+		      </button>
+		      <button type="button" class="btn btn-tool" data-card-widget="remove">
+		        <i class="fas fa-times"></i>
+		      </button>
+		    </div>
+		  </div>
+		  <div class="card-body">
+		    <div class="chart"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+		     
+		    </div>
+		  </div>
+		  <!-- /.card-body -->
+		</div>
+		<!-- /.card -->
+	</div>
+</div>
+
+
+{% endblock %}

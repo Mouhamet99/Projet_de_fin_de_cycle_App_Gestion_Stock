@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mouvement de stock{% endblock %}
+
+{% block body %}
+<hr>
+<br> 
+<div class="row">
+    <div class="col-11 col-push-1">
+    <h4 class="text-centered">
+       Table des sorties.Nous pouvons visualiser toutes les sorties effectues
+    </h4>
+     <div class="col-12">
+          <div class="card card-primary card-outline">
+              <div class="card-tools py-2 bg-light">  
+                  <button  type="button" class="btn btn-success" data-toggle="modal" data-target="#bon-facture" id="btn-remove-bdl">
+                     <i class="fas fa-plus mx-2"></i>Nouvelle Sortie
+                  </button>
+                
+                  <button type="button" class="btn btn-tool float-right" data-card-widget="collapse">
+                      <i class="fas fa-minus  "></i>
+                  </button>   
+              </div>
+              <!-- /.card-tools -->
+         
+            <div class="card-body p-0">
+              <div class="mailbox-controls">
+                <!-- Check all button -->
+                
+                <div class="float-right">
+                  1-50/200
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-default btn-sm">
+                      <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button type="button" class="btn btn-default btn-sm">
+                      <i class="fas fa-chevron-right"></i>
+                    </button>
+                  </div>
+                  <!-- /.btn-group -->
+                </div>
+                <!-- /.float-right -->
+              </div>
+              <div class=" table-responsive mailbox-messages">
+                <table class="table table-sm table-hover table-bordered table-striped " id="table-removal">
+                  <thead>
+                    <tr>
+                      	<th scope="col" style"padding :1px;">#</th>
+                        <th scope="col">medicament</th>
+                        <th scope="col">quantité</th>
+                        <th scope="col">service</th>
+                        <th scope="col">demandeur</th>
+                        <th scope="col" style= "padding: 4px;">date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for list in removal_list %}
+                      <tr>
+                        <td>
+                          <div class="icheck-primary">
+                            <input type="checkbox" value="{{list.id}}" >
+                            <label for="check1"></label>
+                          </div>
+                        </td>
+                        <td>  {{list.medicament.dci}} </td>
+                        <td>  {{list.quantite}} </td>
+                        <td>  {{list.service}} </td>
+                        <td>  {{list.demandeur}} </td>
+                        <td>  {{list.dateSortie | date('d/m/Y' à 'H:i')}} </td>                        
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+                <!-- /.table -->
+              </div>
+              <!-- /.mail-box-messages -->
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer p-0">
+           
+            </div>
+          </div>
+          <!-- /.card -->
+        </div>
+    </div>
+</div>
+{% endblock %}
+

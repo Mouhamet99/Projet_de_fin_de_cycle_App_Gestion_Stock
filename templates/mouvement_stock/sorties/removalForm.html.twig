@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+{% block title %}Sortie de medicaments{% endblock %}
+
+{%  block body %}
+
+	<h1>Sortie de medicaments</h1>
+	{{ form_start(form_removals) }}
+		<div class="card card-primary card-outline"> 
+             
+                <div class="card-header text-right ">
+				{{ form_row(form_removals.reference) }}
+                	
+                </div>
+                <div class="card-tools text-right border-bottom">
+                    <button id="add-new-item-to-sortie" class="btn btn-sm rounded-0 rounded-top btn-outline-dark mx-2">Nouvelle Sortie</button>         
+                </div>
+                <div class="card-body table-responsive ">
+                    <table id="sorties" class=" table bg-light-edit table-sm centered text-nowrap "
+                        data-prototype-dci="{{  form_widget(form_removals.sortieItems.vars.prototype.medicament)|e }}"
+                        data-prototype-qtt="{{  form_widget(form_removals.sortieItems.vars.prototype.quantite)|e }}"
+                        data-prototype-service="{{  form_widget(form_removals.sortieItems.vars.prototype.service)|e }}"
+                       data-prototype-demandeur="{{  form_widget(form_removals.sortieItems.vars.prototype.demandeur)|e }}"
+                        
+                      
+                       data-index="{{ form_removals.sortieItems|length }}">
+                        <thead class="thead-dark">
+                        {% if form_removals.sortieItems|length > 0 %}
+                                <th scope="col" ></th>
+                        {% endif %}
+                                <th scope="col" >#</th>
+                                <th scope="col">Designation</th>
+                                <th scope="col">Quantité</th>
+                                <th scope="col">Service</th>
+                                <th scope="col">Demandeur</th>
+                                <th scope="col">Actions</th>
+                        </thead>
+                        <tbody >  
+                            {% for key,list in form_removals.sortieItems %}
+							<tr class="tr-item" id ="{{ key }}">
+								<td><input type="checkbox" value="{{ loop.index }}"></td>
+								<td>{{ loop.index }}</td>
+								<td>{{ form_widget(list.medicament,{'attr': {'class': 'w-auto'}}) }}</td>
+								<td>{{ form_widget(list.quantite,{'attr': {'class': 'w-50','disabled': false}} ) }}</td>
+								<td>{{ form_widget(list.service,{'attr': {'class': ''}} ) }}</td>
+								<td>{{ form_widget(list.demandeur,{'attr': {'disabled': false,'class': 'w-50'}}) }}</td>
+
+								<td class="d-flex align-middle justify-content-around removals ">
+								<a href="#" id="remove-item" class=" btn btn-default " title="Delete element"><span class="fa fa-trash"></span></a>
+								</td>
+								
+							</tr>
+                            {%  endfor %}
+                            <tr class="td_cache" style="display:none;">
+                                <td class="d-flex align-middle justify-content-around ">
+                                <!--     <a href="#" id="add-new-item" class=" btn btn-sm btn-outline-dark" title="Duplicate element"><span class="fa fa-plus"></span></a> -->
+                                    <a href="#" id="remove-item" class=" btn btn-sm btn-outline-dark" title="Delete element"><span class="fa fa-trash"></span></a>
+                                
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>  
+                <div class="card-footer">
+                   {{ form_widget(form_removals._token) }}
+                    <button type="submit" id="save-bdc" class="btn btn-success">Valider</button>
+                    <button type="reset" class="btn btn-default float-right">Cancel</button>
+                </div>                
+		</div>
+	{{ form_end(form_removals,{'render_rest': false}) }}
+
+{% endblock %}

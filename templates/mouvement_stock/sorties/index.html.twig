@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mouvement de stock{% endblock %}
+
+{% block body %}
+<hr>
+<br>
+    <div class="row">
+        <div class="col-11 ">
+            <h4 class="text-centered">
+                 Sorties efféctuées
+            </h4>
+            <div class="col-12">
+                <div class="card card-primary card-outline">
+                    <div class="card-tools py-2 bg-light ">                        
+                        <button class="btn btn-tool float-right" data-card-widget="collapse" type="button">
+                            <i class="fas fa-minus ">
+                            </i>
+                        </button>
+                        <a class="btn btn-success text-decoration-none float-right" href="{{ path('stock_removals_new')}}">
+                            <i class="fas fa-plus mx-2">
+                            </i>
+                            Nouvelle Sortie
+                        </a>
+                    </div>
+                    <!-- /.card-tools -->
+                    <div class="card-body p-0">
+                        <div class=" table-responsive mailbox-messages" style="max-height: 700px;">
+                            <table class="table table-sm table-hover table-bordered table-striped " id="table-removal">
+                                <thead>
+                                    <tr>
+                                        <th  scope="col" >
+                                            #
+                                        </th>
+                                        <th scope="col">
+                                            medicament
+                                        </th>
+                                        <th scope="col">
+                                            quantité
+                                        </th>
+                                        <th scope="col">
+                                            service
+                                        </th>
+                                        <th scope="col">
+                                            demandeur
+                                        </th>
+                                        <th scope="col" style="padding: 4px;">
+                                            date
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for list in removal_list %}
+                                    <tr>
+                                        <td>
+                                            <div class="icheck-primary">
+                                                <input type="checkbox" value="{{list.id}}">
+                                                    <label for="check1">
+                                                    </label>
+                                                </input>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            {{list.medicament.dci}}
+                                        </td>
+                                        <td>
+                                            {{list.quantite}}
+                                        </td>
+                                        <td>
+                                            {{list.service}}
+                                        </td>
+                                        <td>
+                                            {{list.demandeur}}
+                                        </td>
+                                        <td>
+                                            {{list.dateSortie | date('d/m/Y')}} à {{list.dateSortie | date('H:i')}}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% if removal_list|length == 0 %}
+                                        <h2 class="text-center">Aucune sortie effectues</h2>
+                                    {% endif %}
+
+                                </tbody>
+                            </table>
+                            <!-- /.table -->
+                        </div>
+                        <!-- /.mail-box-messages -->
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer p-0">
+                    </div>
+                </div>
+                <!-- /.card -->
+            </div>
+        </div>
+    </div>
+{% endblock %}

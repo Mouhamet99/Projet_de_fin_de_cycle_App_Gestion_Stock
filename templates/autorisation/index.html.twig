@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Autorisation de commande{% endblock %}
+{% block body %}
+
+<!--  Modal to Showing item of bondecommande   -->
+<div class="modal  fade" id="bon-facture" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="list-item-medic-label" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered">
+
+  </div>
+</div>
+<!--  end Modal to Show item of bonDeCommande   -->
+<!--   Modal to Showing notification   -->
+<div class="modal fade" id="factureAlert" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="factureError" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body">
+          <h1>Ce bon de commande ne peut etre supprimé</h1>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<!--  end Modal to Showing bonDeCommande   -->
+
+<hr>
+<br>
+<div class="row">
+  <div class="col-11 col-push-1">
+   
+    <div class="col-12">
+      <div class="card card-primary card-outline">
+        <div class="card-tools py-2 bg-light text-right">
+          <button  class="btn btn-success "><i class="far fa-check-double mr-2"></i></i>Autoriser Commande</button>
+          <button  class="btn btn-danger "><i class="fas fa-ban mr-2 "></i>Rejeter Commande</button>
+        </div>
+        <!-- /.card-tools -->
+
+        <div class="card-body p-0">
+          <div class="mailbox-controls">
+            <!-- /.float-right -->
+          </div>
+          <div class=" table-responsive mailbox-messages">
+            <table class="table table-sm table-hover table-bordered table-striped " id="table-bdc">
+              <thead>
+                <tr>
+                  <th scope="col" style="padding :1px;">#</th>
+                  <th scope="col">Bdc</th>
+                  <th scope="col">Fournisseur</th>
+                  <th scope="col">mail</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Etat</th>
+                  <th scope="col" style="padding :4px;">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for bon in bdc_list %}
+                    {% if bon.etat == 'En attente' %}
+		                <tr>
+		                  <td>
+		                    <div class="icheck-primary">
+		                      <input type="checkbox" value="{{bon.id}}" id="">
+		                      <label for="check1"></label>
+		                    </div>
+		                  </td>
+		                  <td> {{bon.numero}} </td>
+		                  <td> {{bon.fournisseurBdc.company}} </td>
+		                  <td> {{bon.fournisseurBdc.mailFourn}} </td>
+		                  <td> {{bon.createdAt | date('d/m/Y')}} </td>
+		                  <td class ="etat">{{bon.etat}}</td>
+		                  <td>
+		                  	<a id="btn-show-bdc" href="{{path('bon_show',{id: bon.id})}}" class="btn btn-sm btn-warning" alt="afficher"><i class="fas fa-eye "></i></a>
+		                    <a href="{{path('bon_allow',{id: bon.id})}}" class="btn btn-sm btn-success" alt="supprimer"><i class="fas fa-check-double"></i></a>
+		                    <a href="{{path('bon_reject',{id: bon.id})}}" class="btn btn-sm btn-danger" alt="Rejeter Bon de commande"><i class="fas fa-ban"></i></a>
+		                  </td>
+		                </tr>
+                    {% endif %}
+                {% endfor %}
+                {% if bdc_list|length == 0 %}
+                		<h1 class="text-center">Aucune commande en attente d'autorisation</h1>
+                {% endif %}
+
+              </tbody>
+            </table>
+            <!-- /.table -->
+          </div>
+          <!-- /.mail-box-messages -->
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer p-0">
+
+        </div>
+      </div>
+      <!-- /.card -->
+    </div>
+  </div>
+</div>
+{% endblock %}

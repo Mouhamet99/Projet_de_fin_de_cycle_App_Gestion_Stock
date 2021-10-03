@@ -1,0 +1,119 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bon de commande{% endblock %}
+
+{% block body %}
+
+<!--  Modal to Showing item of bondecommande   -->
+<div class="modal  fade" id="bon-facture" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="list-item-medic-label" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered">
+
+  </div>
+</div>
+<!--  end Modal to Show item of bonDeCommande   -->
+<!--   Modal to Showing notification   -->
+<div class="modal fade" id="factureAlert" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="factureError" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body">
+            <h1>Cette action ne peut se faire.Verfiez que le bon est bien autorisé ou qu'il n'est pas joint à aucune facture</h1>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<!--  end Modal to Showing bonDeCommande   -->
+
+<hr>
+<br>
+<div class="row">
+  <div class="col-11 col-push-1">
+    <div class="col-12">
+      <div class="card card-primary card-outline">
+        <div class="card-tools py-2 bg-light text-right">
+          <button  class="btn btn-primary  ml-5" id="bdc-join-"><i class="fas fa-link mr-2"></i>Etablir Facture</button>
+          <button class="btn btn-danger"><i class="fas fa-ban mr-2"></i>Annuler BDC</button>
+          <a href="{{path('bon_add')}}" class="btn btn-success  displayLoader text-dcoration-none text-white"><i class="fas fa-plus mr-2"></i>Nouveau bdc</a>
+        </div>
+        <!-- /.card-tools -->
+
+        <div class="card-body p-0">
+          <div class="mailbox-controls">
+            <!-- /.float-right -->
+          </div>
+          <div class=" table-responsive mailbox-messages">
+            <table class="table table-sm table-hover table-bordered table-striped " id="table-bdc">
+              <thead>
+                <tr>
+                  <th scope="col" style"padding :1px;">#</th>
+                  <th scope="col">Bdc</th>
+                  <th scope="col">Fournisseur</th>
+                  <th scope="col">mail</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Etat</th>
+                  <th scope="col" style"padding :4px;">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for bon in bdc_list %}
+                  <tr>
+                    <td>
+                      <div class="icheck-primary">
+                        <input type="checkbox" value="{{bon.id}}" id="">
+                        <label for="check1"></label>
+                      </div>
+                    </td>
+                    <td> {{bon.numero}} </td>
+                    <td> {{bon.fournisseurBdc.company}} </td>
+                    <td> {{bon.fournisseurBdc.mailFourn}} </td>
+                    <td> {{bon.createdAt | date('d/m/Y')}} </td>
+                    <td class ="etat"> {{bon.etat}}
+                      {% if bon.etat == 'Terminée' %}
+                      <a href="#"><i class="fas fa-star text-dark text-warning"></i></a>
+                      {% endif %}
+                    </td>
+                      {% if bon.etat == 'En attente' or bon.etat == 'Non Autorisé'%}
+                        <td>
+                          <a id="btn-show-bdc" href="{{path('bon_show',{id: bon.id})}}" class="btn btn-sm btn-warning" alt="afficher"><i class="fas fa-eye "></i></a>
+                          <a href="{{path('bon_remove',{id: bon.id})}}" class="btn btn-sm btn-danger displayLoader" alt="supprimer"><i class="fas fa-ban"></i></a>
+                          <button id="btn-not-join-bdc" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#factureAlert" ><i class="fas fa-link"></i></button>
+
+
+                          
+                        </td>
+                      {% else %}
+                        <td>
+                        <a id="btn-show-bdc" href="{{path('bon_show',{id: bon.id})}}" class="btn btn-sm btn-warning" alt="afficher"><i class="fas fa-eye "></i></a>
+                        {% if (bon.etat) == 'Terminée' %}
+                          <a id="btn-not-remove-bdc" href="#" class="btn btn-sm btn-danger" alt="supprimer"><i class="fas fa-ban"></i></a>
+                          <button id="btn-not-join-bdc" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#factureAlert"><i class="fas fa-link"></i></button>
+                       
+                        {% else %}
+                          <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#factureAlert" ><i class="fas fa-ban"></i></button>
+                          <a id="btn-join-bdc" href="{{path('bon_join',{id: bon.id})}}" class="btn btn-sm btn-primary displayLoader" alt="joindre une facture"><i class="fas fa-link"></i></a>
+                        {% endif %}
+                        </td>
+                      {% endif %}
+                  </tr>
+                  {% if bdc_list|length == 0 %}
+                    <h1>Aucun bon de commande établi</h1>
+                  {% endif%}
+                {% endfor %}
+              </tbody>
+            </table>
+            <!-- /.table -->
+          </div>
+          <!-- /.mail-box-messages -->
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer p-0">
+
+        </div>
+      </div>
+      <!-- /.card -->
+    </div>
+  </div>
+</div>
+{% endblock %}

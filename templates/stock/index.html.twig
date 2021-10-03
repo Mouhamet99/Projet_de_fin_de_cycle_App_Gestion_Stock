@@ -1,0 +1,278 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page principale!{% endblock %}
+
+{% block body %}
+		<!--  Modal for editing  -->
+	<div class="modal fade" id="staticBackdropLive" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLiveLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable ">
+			<div class="modal-content" id="modal_edit_content">
+				{% if id %}
+						{{ formedit | raw}}
+				{% else  %}
+				<div class="modal-body">
+					<h1 class="title">Veillez choisir un medicament</h1>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+				</div>
+				{% endif  %}
+			</div>
+		</div>
+	</div>
+		<!--  end Modal for editing  -->
+		<!--  Modal for adding  -->
+	<div class="modal fade" id="staticBackdropLive2" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLiveLabel2" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+			<div class="modal-content">
+				{{ formAdd | raw }}
+			</div>
+		</div>
+	</div>
+		<!--  end Modal for adding  -->
+	
+<div class="row">
+	<div class="col-md-3 col-sm-6 col-12">
+		<div class="small-box bg-danger shadow">
+		    <div class="inner">
+		        <h2>
+		            <span class="info-box-number">{{ critique}}/{{medicaments|length}} Soit {{((critique*100)/medicaments|length)|round(1,'floor')}}%</span>
+		        </h2>
+		        <p>Article Critique</p>
+		    </div>
+		    <div class="icon">
+		        <i class="fas fa-signal"></i>
+		    </div>
+		</div>
+	</div>
+    <!-- /.info-box -->
+	<div class="col-md-3 col-sm-6 col-12">
+		<div class="small-box bg-primary shadow">
+		    <div class="inner"> 
+		        <h2>{{valeur|number_format (0, '', '.')}}<sup style="font-size: 20px">FCFA</sup></h2>
+		        <p>Valeur du stock</p>
+		    </div>
+		    <div class="icon">
+		        <i class="fas fa-signal"></i>
+		    </div>
+		</div>
+	</div>
+	<div class="col-md-3 col-sm-6 col-12">
+		<div class="small-box bg-warning shadow">
+		    <div class="inner">
+		        <h3>{{volume|number_format(0, '', '.')}}</h3>
+		        <p>Volume du stock</p>
+		    </div>
+		    <div class="icon">
+		        <i class="fas fa-thermometer-half"></i>
+		    </div>
+		</div>
+	</div>
+	
+	<div class="col-lg-3 col-6">
+	    <!-- small card -->
+	    <div class="small-box bg-success shadow">
+	        <div class="inner">
+	            <h3>{{en_commande}}</h3>
+	            <p>Articles en commande</p>
+	        </div>
+	        <div class="icon">
+	            <i class="fas fa-charging-station"></i>
+	        </div>
+	       
+	    </div>
+	</div>
+</div>
+<div class="medic-table">
+	<div class="col-12 ">
+		<div class="card">
+		  <div class="card-header">
+				<h3 class="card-title">Liste des medicaments</h3>
+				<div class="card-tools float-right">
+					<button  class="btn btn-outline-warning btn_edit" data-toggle="modal" data-target="#staticBackdropLive"   id="btn_edit">
+						<i class="fas fa-edit "></i>modifier
+					</button>
+					<a href="{{path('stock_export')}}" class="btn btn-secondary">
+						<i class="fas fa-print mr-2"></i>Exporter
+					</a>
+					<button  type="button" class="btn btn-success" data-toggle="modal" data-target="#staticBackdropLive2" id="addRecord"><i class="fas fa-plus mr-2"></i>Nouveau Medicament</button>
+		 			 <button type="button" class="btn btn-tool" data-card-widget="collapse">
+		         		 <i class="fas fa-minus"></i>
+		    	    </button>
+		   		</div>
+		  </div>
+		  <!-- /.card-header -->
+		  <div class="card-body table-responsive p-0" style="max-height: 700px;">
+		    <table class=" table table-head-fixed text-nowrap table-bordered display" id="table_id">
+		      <thead>
+		       <tr>
+					<th scope="col" style="padding :1px;">#</th>
+					<th scope="col">id</th>
+					<th scope="col">Dci</th>
+					{# <th scope="col">Code</th> #}
+					<th scope="col">Dosage</th>
+					<th scope="col">PA</th>
+					{# <th scope="col">PV</th> #}
+					{# <th scope="col">Categorie</th> #}
+					<th scope="col">Stock</th>
+					<th scope="col">Avoir</th>
+					<th scope="col">Forme</th>
+					{# <th scope="col">Rupture</th> #}
+					{# <th scope="col">T_Ruptures</th> #}
+					<th scope="col">Min</th>
+					<th scope="col">Max</th>
+					<th scope="col">peremption</th>
+					<th scope="col">Etat du stock</th>
+					<th scope="col" style="padding :4px;">Actions</th>
+				</tr>
+				</thead>
+				<tbody>
+					 {% for medic in medicaments %}
+					<tr>
+						<th scope="col"><input type="checkbox" value={{medic.id}} ></th>
+						<th scope="row">{{ loop.index}}</th>
+						<td>{{medic.dci}}</td>
+						{# <td>{{medic.qrcode}}</td> #}
+						<td>{{medic.dosage}}</td>
+						<td>{{medic.pa}}</td>
+						{# <td>{{medic.pv}}</td> #}
+						{# <td>{{medic.categorie}}</td> #}
+						{% if medic.stock < medic.min %}
+							<td class="text-red">{{medic.stock}}</td>
+						{% else %}
+							<td>{{medic.stock}}</td>
+						{% endif%}
+						<td>{{medic.avoir}}</td>
+						<td>{{medic.forme}}</td>
+						{# <td>{{medic.jouRupture}}</td> #}
+						{# <td>{{medic.jourRuptureTotal}}</td> #}
+						<td>{{medic.min}}</td>
+						<td>{{medic.max}}</td>
+						<td>{{medic.peremption |date ('d/m/Y')}}</td>
+						<td>{{medic.etat}}</td>
+						<td>
+							<a id="btn_edit_med" href="{{ path('stock_edit',{id :medic.id})}}" class="mx-1"><i class="fa fa-edit text-yellow"></i></a>
+							<a id="btn_archive_med" href="{{ path('stock_archive',{id :medic.id})}}" class="mx-1"><i class="fas fa-archive mx-2"></i></a>
+							{% if is_granted('ROLE_ADMIN') %}
+							<a id="btn_remove_med" href="{{ path('stock_remove',{id :medic.id})}}" class="mx-1"><i class="fas fa-trash text-red"></i></a> 
+							{% endif %}
+						</td>
+						{# <td>{{medic.epuisementstock |date ('d/m/Y')}}</td> #}
+					</tr>
+					{% endfor %}
+		    	  </tbody>
+		    </table> 
+		  
+		  </div>
+		  <!-- /.card-body -->
+		</div>
+		<!-- /.card medicaments -->
+	    <!--  card des fourniseeurs -->
+		{# <div class="row">
+			<div class="p-6 ">
+				<div class="card ">	
+				<div class="card-header">
+					<h3 class="card-title">Founisseurs</h3>
+					<div class="card-tools float-right">
+					 	<button type="button" class="btn btn-tool sidebar-collapse" data-card-widget="collapse">
+				 		 <i class="fas fa-minus"></i>
+				    	</button>
+					</div>
+				</div>
+				<!-- /.card-header -->
+				  <div class="card-body table-responsive p-0" style="max-height: 400px;">
+				    <table id="table_privider" class="table table-bordered table-striped">
+				      <thead>
+				      <tr>
+						<th></th>  
+						<th>#</th>  
+						<th>fournisseur</th>   
+						<th>Socité</th>   
+						<th>mailFourn</th>     
+						<th>adresse</th>      
+						<th>Actions</th>      
+						    
+						</tr>
+				      </thead>
+						<tbody>
+				   
+				      </tbody>
+					  	{% for f in fournisseurs %}
+							<tr>	
+							<th scope="col"><input type="checkbox" value={{f.id}} ></th>
+								<td>{{loop.index + 1}}</td>
+								<td>{{f.nomFourn}}</td>
+								<td>{{f.company}}</td>
+								<td>{{f.mailFourn}}</td>
+								<td>{{f.adresseFourn}}</td> 
+								<td>
+									<a id ="btn_edit_four" href="" id="{{f.id}}" class="mx-1"><i class="fa fa-edit text-yellow"></i></a>
+									<a  id="btn_view_four" class="mx'1"><i class="fa fa-eye text-teal"></i></a>
+									<a id ="btn_remove_four" href="" id="{{f.id}}" class="mx-1"><i class="fa fa-trash text-red"></i></a>
+								 </td> 
+							</tr>
+						{% endfor  %}
+				    </table>
+				  </div>
+				  <!-- /.card-body -->
+				</div>
+				<!-- /.card -->
+			</div>
+			<!-- /.col -->
+		</div> #}
+	    <!-- /.row -->
+	    <!-- end card des fournisseurs -->
+	</div>
+    <!-- end table des medicament -->
+
+<div>
+
+
+
+{% endblock %}
+{#
+	Nice Users interface
+<div class="col-md-4">
+  <!-- Widget: user widget style 1 -->
+  <div class="card card-widget widget-user shadow">
+    <!-- Add the bg color to the header using any of the bg-* classes -->
+    <div class="widget-user-header bg-info">
+      <h3 class="widget-user-username">Alexander Pierce</h3>
+      <h5 class="widget-user-desc">Founder &amp; CEO</h5>
+    </div>
+    <div class="widget-user-image">
+      <img class="img-circle elevation-2" src="../dist/img/user1-128x128.jpg" alt="User Avatar">
+    </div>
+    <div class="card-footer">
+      <div class="row">
+        <div class="col-sm-4 border-right">
+          <div class="description-block">
+            <h5 class="description-header">3,200</h5>
+            <span class="description-text">SALES</span>
+          </div>
+          <!-- /.description-block -->
+        </div>
+        <!-- /.col -->
+        <div class="col-sm-4 border-right">
+          <div class="description-block">
+            <h5 class="description-header">13,000</h5>
+            <span class="description-text">FOLLOWERS</span>
+          </div>
+          <!-- /.description-block -->
+        </div>
+        <!-- /.col -->
+        <div class="col-sm-4">
+          <div class="description-block">
+            <h5 class="description-header">35</h5>
+            <span class="description-text">PRODUCTS</span>
+          </div>
+          <!-- /.description-block -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </div>
+  </div>
+  <!-- /.widget-user -->
+</div>
+#} 	

@@ -1,0 +1,96 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration Fournisseurs{% endblock %}
+
+{% block body %}
+
+<hr>
+<br>
+
+<div class="SpinnerLoader">
+	<img src="/../../img/SpinnerLoaderr.gif" class="img-responsive" alt="">
+</div>
+<!--  Modal to Showing item of provider   -->
+<div class="modal  fade" id="provider" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="provider-label" aria-hidden="true">
+	<div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered">
+
+	</div>
+</div>
+<!--  end Modal to Showing provider   -->
+<div class="row">
+	<div class="col-12">
+		<h4 class="text-centered">
+			Liste des Fournisseurs.Nous pouvons voir toutes les informations les concernant
+		</h4>
+		<div class="col-12">
+			<div class="card card-primary card-outline">
+				<div class="card-tools py-2 bg-light">
+					{# <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="" id="btn-remove-provider">
+						<i class="fas fa-ban mr-2"></i>Supprimer Fournisseur
+					</button>
+					<button type="button" class="btn btn-success" data-toggle="modal" data-target="#provider-item" id="btn-add-provider">Ajouter Fournisseur</button>
+					<button class="btn btn-outline-info btn_view_facture" data-toggle="modal" data-target="" id="">Afficher</button> #}
+					<a href="{{path('provider_add')}}" class="btn btn-success float-right">Ajouter Fournisseur</a>
+
+					<button type="button" class="btn btn-tool float-right" data-card-widget="collapse">
+						<i class="fas fa-minus  "></i>
+					</button>
+				</div>
+				<!-- /.card-tools -->
+
+				<div class="card-body p-0">
+					<div class="mailbox-controls">
+						
+					
+					</div>
+					<div class=" table-responsive mailbox-messages">
+						<table class="table table-sm table-hover table-bordered table-striped " id="table-provider">
+							<thead>
+								<tr>
+									<th scope="col" style"padding :1px;">#</th>
+									<th scope="col">codeFourn</th>
+									<th scope="col">Fournisseur</th>
+									<th scope="col">Société</th>
+									<th scope="col">Tel</th>
+									<th scope="col">Mail</th>
+									<th scope="col" >Adresse</th>
+									<th scope="col" style"padding :4px;">Actions</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for list in provider_list %}
+								<tr>
+									<td>
+										<div class="icheck-primary">
+											<input type="checkbox" value="{{list.id}}">
+											<label for="check1"></label>
+										</div>
+									</td>
+									<td> {{list.codeFourn}} </td>
+									<td> {{list.nomFourn}} </td>
+									<td> {{list.company}} </td>
+									<td> {{list.telFourn}} </td>
+									<td> {{list.mailFourn}} </td>
+									<td class="text-truncate text-break"> {{list.adresseFourn }} </td>
+									<td> 
+										<a id="btn-edit-privider" href="{{path('provider_edit', {id: list.id})}}" class="btn btn-xs btn-warning"><i class="fa fa-edit "></i> </a>
+										<a id="btn-remove-privider" href="{{path('provider_remove',{ id: list.id})}}" class="btn btn-xs  btn-danger"><i class="fa fa-trash mx-1"></i></a>
+									</td>
+								</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+						<!-- /.table -->
+					</div>
+					<!-- /.mail-box-messages -->
+				</div>
+				<!-- /.card-body -->
+				<div class="card-footer p-0">
+
+				</div>
+			</div>
+			<!-- /.card -->
+		</div>
+	</div>
+</div>
+{% endblock %}

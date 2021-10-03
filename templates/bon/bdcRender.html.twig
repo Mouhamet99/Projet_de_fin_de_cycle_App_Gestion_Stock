@@ -1,0 +1,103 @@
+  <div class="modal-content " >
+        {% if items %}
+          <div class="modal-body" id ="bdc-modal">
+              <div class="card card-primary "> 
+                <div class="row">
+                  <div class="col-6">
+                    <div class="card-body">
+                      <div class="form-group row">
+                        <div class="col col-sm-auto">
+                         <p class="font-weight-bold text-sm-left">Founisseur: </p>
+                        </div>
+                        <div class="col col-sm-auto">
+                       <p class="text-sm-left">{{ items.fournisseurBdc.company   }}</p> 
+                        </div>
+                      </div>
+                     
+                      
+                      <div class="form-group row">
+                        <div class="col col-sm-auto">
+                         <p class="font-weight-bold text-sm-left"> Nom Founisseur: </p>
+                        
+                        </div>
+                        <div class="col col-sm-auto">
+                       <p class="text-sm-left">{{ items.fournisseurBdc.nomFourn }}</p> 
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <div class="col col-sm-auto">
+                         <p class="font-weight-bold text-sm-left"> Mail: </p>
+                         
+                        </div>
+                        <div class="col col-sm-auto">
+                       <p class="text-sm-left">{{ items.fournisseurBdc.mailFourn  }}</p> 
+                        </div>
+                      </div>
+                      
+                    </div>
+                  </div>
+                  <div class="col-6 push-col-1">
+                    <div class="card-body">
+                      <div class="form-group row">
+                        <div class="col col-sm-auto">
+                         <p class="font-weight-bold text-sm-left">Bon de commande: </p>
+                     
+                        </div>
+                        <div class="col-sm-7">
+                       <p class="text-sm-left">{{ items.numero   }}</p> 
+                        </div>
+                      </div>
+                    
+                      <div class="form-group row">
+                        <div class="col col-sm-auto">
+                         <p class="font-weight-bold text-sm-left">adreese: </p>
+                        </div>
+                        <div class="col col-sm-auto">
+                       <p class="text-sm-left"> {{items.fournisseurBdc.adresseFourn  }}</p> 
+                        </div>
+                      </div>
+                    </div>
+                              
+                  </div>
+                </div>
+                <h1>{{ items.medicItems |length }} Medicaments</h1>
+                <div class="card-body table-responsive ">
+
+                  <table id="facture" class=" table table centered text-nowrap" >
+                    <thead class=".thead-dark">
+                         <th scope="col" style"padding :1px;">Designation</th>
+                    <th scope="col">PU</th>
+                    <th scope="col">Quantité</th>
+                    <th scope="col" style"padding :4px;">Montant</th>
+                  </tr>
+                    </thead>
+                    <tbody >    
+                    {% for item in items.medicItems %}
+                      <tr>
+                        <td>{{ item.ItemMedicament.dci}}</td>
+                        <td>{{ item.quantite }}</td>
+                        <td>{{  item.prixUnitaire}}</td>
+                        <td>{{  item.prixUnitaire*item.quantite}}</td>
+                      </tr>
+                    {% endfor %}
+                    </tbody>
+                  </table>
+                </div>  
+              </div>
+         </div>
+        {% else  %}
+          <div class="modal-body">
+            <h1 class="title">Veillez choisir un bon de commande</h1>
+          </div>
+          
+        {% endif  %}
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+            <button type="button" class="btn btn-primary float-left" id=" print " onclick='printJS({
+								printable: "bdc-modal",
+								type: "html",
+								header:
+									"<div class=\"logo\"><h1>Clinique Yaye Marie</h1><img src=\"https://placeimg.com/100/100/any\" alt=\"image dillustration du logo de lentreprise\"></div>",
+							});'>Imprimer</button>
+          </div>
+      </div>

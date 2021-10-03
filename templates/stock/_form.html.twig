@@ -1,0 +1,141 @@
+
+<div class="modal-header">
+  {% if editMode %} 
+    <h5 class="modal-title" id="staticBackdropLiveLabel">Information Medicament</h5>
+  {% else %} 
+    <h5 class="modal-title" id="staticBackdropLiveLabel2">Nouveau Medicament</h5>
+   {% endif %} 
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% if RemovalMode %} 
+   {{ form_start(Removalform, {'action': path('stock_removal',{id: 2}), 'method': 'POST'}) }}
+  {{form_row(Removalform)}}
+  {{form_end(Removalform)}}
+{%  else %}  
+  {% if editMode %}  
+    {% set style='d-none' %}  
+    <div class="form-controls">
+      {{ form_start(Medicform, {'action': path('stock_edit',{id : medic.id}), 'method': 'POST'}) }}
+  {% else %}  
+    {% set style='' %}  
+    <div class="form-controls">
+      {{ form_start(Medicform, {'action': path('stock_add'), 'method': 'POST'}) }}
+  {% endif %}
+      <div class="modal-body">
+        <div class="form-error">
+          {{ form_errors(Medicform) }}
+        </div>
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="form-group">
+              {{ form_label(Medicform.dci) }}    
+              {{ form_widget(Medicform.dci,{'attr' : { 'class' :'form-control border-width-2 is-warning'}}) }}
+            </div>
+          </div>
+            <div class="col-lg-6">
+             <div class="form-group">
+              {{ form_label(Medicform.code) }}    
+              {{ form_widget(Medicform.code,{'attr' : { 'class' :'form-control border-width-2 is-warning'}}) }}
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="form-group">
+              {{ form_label(Medicform.forme) }}    
+              {{ form_widget(Medicform.forme,{'attr' : { 'class' :'form-control border-width-2 is-warning'}}) }}
+            </div>
+          </div>
+          
+           <div class="col-lg-6">
+            <div class="form-group">
+              {{ form_label(Medicform.categorie) }}    
+              {{ form_widget(Medicform.categorie,{'attr' : { 'class' :'form-control border-width-2 is-warning'}}) }}
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="form-group">
+              {{ form_label(Medicform.min) }}    
+              {{ form_widget(Medicform.min,{'attr' : { 'class' :'form-control border-width-2 is-warning'}}) }}
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="form-group">
+              {{ form_label(Medicform.max) }}    
+              {{ form_widget(Medicform.max,{'attr' : { 'class' :'form-control border-width-2 is-warning'}}) }}
+            </div>
+          </div>
+         
+        </div>
+        <div class="row {{ style }}">
+          <div class="col-lg-6">
+            <div class="form-group">
+              {{ form_label(Medicform.stock) }}    
+              {{ form_widget(Medicform.stock,{'attr' : { 'class' :'form-control border-width-2 is-warning'}}) }}
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="form-group">
+              {{ form_label(Medicform.avoir) }}    
+              {{ form_widget(Medicform.avoir,{'attr' : { 'class' :'form-control border-width-2 is-warning'}}) }}
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6">
+              <div class="form-group">
+                {{ form_label(Medicform.pa) }}    
+                {{ form_widget(Medicform.pa,{'attr' : { 'class' :'form-control border-width-2 is-warning'}}) }}
+              </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="form-group">
+              {{ form_label(Medicform.pv) }}    
+              {{ form_widget(Medicform.pv,{'attr' : { 'class' :'form-control border-width-2 is-warning'}}) }}
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="form-group">
+              {{ form_label(Medicform.dosage) }}    
+              {{ form_widget(Medicform.dosage,{'attr' : { 'class' :'form-control border-width-2 is-warning'}}) }}
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="form-group">
+              {{ form_label(Medicform.peremption) }}    
+              {{ form_widget(Medicform.peremption,{'attr' : { 'class' :'form-control border-width-2 is-warning'}}) }}
+            </div>
+          </div>
+        </div>
+        <div class="row d-none">
+          <div class="col-lg-6">
+            <div class="form-group">
+              {{ form_label(Medicform.etat) }}    
+              {{ form_widget(Medicform.etat,{'attr' : { 'class' :'form-control border-width-2 is-warning'}}) }}
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      <div class="modal-footer">
+        {{ form_widget(Medicform._token) }} 
+        {% if editMode %}
+          <button type="submit" class=" btn btn-primary">Enregistrer </button>
+        {% else %}  
+          <button  class="btn btn-primary float-left" type="submit">Ajouter</button>
+        {% endif %}
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+      </div>
+    </div>  
+{{ form_end(Medicform,{'render_rest' :false}) }}
+{% endif %}
+
+
+
+       
